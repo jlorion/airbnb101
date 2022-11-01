@@ -1,0 +1,19 @@
+<form action="/listing/<%= listing._id %>">
+        <div>
+            <label for="name">Product name</label>
+            <input type="text" name="name" id="name" value="<%= listing.name %> ">
+        </div>
+        <br>
+        <div>
+            <label for="price">Price: </label>
+            <input type="number" name="price" id="price" value="<%= listing.price %>">
+        </div>
+        <br>
+        <div>
+            <label for="location">Location: </label>
+            <input type="text" name="location" id="location" value="<%= listing.location%> ">
+        </div>
+        <button>Submit</button>
+</form>
+
+<a href="/listings/<%= listing._id %>">Cancel </a>

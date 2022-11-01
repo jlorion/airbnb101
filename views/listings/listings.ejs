@@ -1,0 +1,13 @@
+
+    <ul>
+        <% for (let i of listings ) { %>
+            <li>
+                <a href="/listings/<%= i._id %> ">
+                    <%= i.name %> 
+                </a>
+                <br>
+                <%= i.location %> 
+            </li>
+        <% } %>
+
+    </ul>

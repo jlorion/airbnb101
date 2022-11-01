@@ -1,0 +1,14 @@
+
+    <h1><%= listing.name %> </h1>
+        <h3><%= listing.location %></h3>
+
+        <h4><%= listing.price %> </h4>
+    <br>
+    <a href="/listings">Show all</a>
+    <br>
+    <a href="/listings/<%= listing._id %>/edit"> edit </a>
+    <br>
+    <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+        <button>Delete</button>
+    </form>
+
