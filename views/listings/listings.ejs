@@ -2,6 +2,7 @@
     <ul>
         <% for (let i of listings ) { %>
             <li>
+                <img src="<%= i.image %> " alt="">
                 <a href="/listings/<%= i._id %> ">
                     <%= i.name %> 
                 </a>

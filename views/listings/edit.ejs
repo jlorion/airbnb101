@@ -1,4 +1,6 @@
-<form action="/listing/<%= listing._id %>">
+
+
+<form action="/listings/<%= listing._id %>?_method=PUT" method="post">
         <div>
             <label for="name">Product name</label>
             <input type="text" name="name" id="name" value="<%= listing.name %> ">

@@ -1,8 +1,19 @@
 
+    <img src="<%= listing.image %> " alt="">
     <h1><%= listing.name %> </h1>
         <h3><%= listing.location %></h3>
 
         <h4><%= listing.price %> </h4>
+    <br>
+    <!-- impliment review here -->
+    <iframe  width="450" height="250" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyBmIwbHivFRB9G8bnd9tuFCKWWeFNg6VWc&center=<%=listing.lat%>,<%=listing.lng %>&zoom=18&maptype=satellite" frameborder="0">
+    </iframe>
+    <br>
+    <h5>⭐<%= listing.review.toFixed(2) %></h5>
+    <form action="/listings/<%= listing._id %>?_method=PATCH" method="post">
+        <input type="number" name="review" id="review" min="0" max="5">
+        <button>Add Review</button>
+    </form> 
     <br>
     <a href="/listings">Show all</a>
     <br>

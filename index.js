@@ -34,6 +34,10 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/views'));
 
+app.use('/listings/:id', (req, res, next)=> {
+    console.log(req.method, req.body.review)
+    next();
+})
 
 // homepage
 app.get('/', (req, res) => {
@@ -54,6 +58,26 @@ app.post('/listings', async (req, res) => {
     const newListing = new Listing(req.body);
     await newListing.save();
     res.redirect('/listings');
+})
+
+
+app.put('/listings/:id', async (req, res) => {
+    const {id} = req.params;
+    await Listing.findByIdAndUpdate(id, req.body, {runValidators: true, new: true});
+    res.redirect(`/listings/${id}`);
+})
+
+app.patch('/listings/:id', async (req, res) => {
+    const {id} = req.params;
+    const newReview = req.body.review;
+    const importReview = await Listing.findById(id, 'review');
+    const oldReview = importReview.review;
+    // hard coded to get the average kaso kinocall sya 5 times kaya may 5 hehehehe😂
+    const average = ((newReview + oldReview) / 2) / 5;
+    console.log(average);
+    await Listing.findByIdAndUpdate(id, {review: average}, {new: true});
+    // await Listing.findByIdAndUpdate(id, {review: {$divide: [ $sum: [newReview, oldReview], 2]}}); //somthing faulty Ambut wla ko kasabot
+    res.redirect(`/listings/${id}`);
 })
 
 

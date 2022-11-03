@@ -2,7 +2,12 @@
     <h1>New Listing</h1>
     <form action="/listings" method="post">
         <div>
-            <label for="name">House Name:</label>
+            <label for="image">image url: </label>
+            <input type="text" name="image" id="image">
+        </div>
+        <br>
+        <div>
+            <label for="name">Name: </label>
             <input type="text" name="name" id="name">
         </div>
         <br>
@@ -14,6 +19,22 @@
         <div>
             <label for="location">Location: </label>
             <input type="text" name="location" id="location">
+        </div>
+        <br>
+        <div>
+            <h4>coordinates</h4>
+            <ul>
+                <li>
+                    <label for="lat">Latitude: </label>
+                    <input type="number" step="any" name="lat" id="lat">
+                </li>
+                
+                <li>
+                    <label for="lng">Latitude: </label>
+                    <input type="number" step="any" name="lng" id="lng">
+                </li>
+
+            </ul>
         </div>
         <br>
         <button>Submit</button>
