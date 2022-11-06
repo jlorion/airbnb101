@@ -1,21 +1,44 @@
 
-
-<form action="/listings/<%= listing._id %>?_method=PUT" method="post">
-        <div>
-            <label for="name">Product name</label>
-            <input type="text" name="name" id="name" value="<%= listing.name %> ">
-        </div>
-        <br>
-        <div>
-            <label for="price">Price: </label>
-            <input type="number" name="price" id="price" value="<%= listing.price %>">
-        </div>
-        <br>
-        <div>
-            <label for="location">Location: </label>
-            <input type="text" name="location" id="location" value="<%= listing.location%> ">
-        </div>
-        <button>Submit</button>
-</form>
-
-<a href="/listings/<%= listing._id %>">Cancel </a>
+<div class="row">
+    <h1 class="text-center">Edit Listing</h1>
+    <div class="col-6 offset-3">
+        <form action="/listings/<%= listing._id %>?_method=PUT" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="image">Image URL</label>
+                <input class="form-control" type="text" id="image" name="image" value="<%= listing.image %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="name" value="<%= listing.name %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Listing Description</label>
+                <textarea class="form-control" type="description" id="description"name="description" rows="5"><%= listing.description  %></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="location" value="<%= listing.location %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Listing Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">₱</span>
+                    <input type="text" class="form-control" placeholder="0.00" aria-label="price"
+                        aria-describedby="price-label" id="price" name="price" value="<%= listing.price%>">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Coordinates</label>             
+                <div class="input-group mb-3" >
+                    <span class="input-group-text">Latitude</span>
+                    <input type="number" step="any" class="form-control" step="any"  name="lat" id="lat" value="<%= listing.lat %>">
+                    <span class="input-group-text">Longtitude</span>
+                    <input type="number" step="any" class="form-control"  name="lng" id="lng" value="<%= listing.lng %>"> 
+            </div>
+            <div class="mb-3">
+                <a class="btn btn-primary" href="/listings/<%= listing._id %>">Cancel</a>
+                <button class="btn btn-success">Update listing</button>
+            </div>
+        </form>
+    </div>
+</div>

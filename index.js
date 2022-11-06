@@ -25,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017/ListingsApp')
     })
     .catch(err => {
         console.log("Error");
-        console.log(err);
+        console.log(err);    
     })
 
 

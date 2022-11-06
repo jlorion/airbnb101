@@ -1,14 +1,29 @@
 
     <ul>
-        <% for (let i of listings ) { %>
-            <li>
-                <img src="<%= i.image %> " alt="">
-                <a href="/listings/<%= i._id %> ">
-                    <%= i.name %> 
-                </a>
-                <br>
-                <%= i.location %> 
-            </li>
+        <% for (let listing of listings ) { %>
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="<%= listing.image %>" class="img-fluid" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= listing.name %>
+                            </h5>
+                            <p class="card-text">
+                                <%= listing.description %>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <%= listing.location %>
+                                </small>
+                            </p>
+                            <a href="/listings/<%= listing._id %>" class="btn btn-info">View <%= listing.name %></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <% } %>
 
     </ul>
