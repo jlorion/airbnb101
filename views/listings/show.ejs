@@ -1,11 +1,14 @@
-
 <div class="row">
     <div class="col-6 offset-3">
         <div class="card mb-3">
             <img src="<%= listing.image %> " class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title"><%= listing.name %></h5>
-                <p class="card-text"><%= listing.description %></p>
+                <h5 class="card-title">
+                    <%= listing.name %>
+                </h5>
+                <p class="card-text">
+                    <%= listing.description %>
+                </p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-muted">
@@ -15,33 +18,47 @@
                     ₱<%= listing.price.toLocaleString() %>/night
                 </li>
             </ul>
-            <div>
-                <iframe width="544" height="300" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyBmIwbHivFRB9G8bnd9tuFCKWWeFNg6VWc&center=<%=listing.lat%>,<%=listing.lng %>&zoom=18&maptype=satellite" frameborder="0">
-                </iframe>
+            <div id="map" style="width: 544px; height: 300px;">
+                <!--  <iframe width="544" height="300" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyBmIwbHivFRB9G8bnd9tuFCKWWeFNg6VWc&center=<%=listing.lat%>,<%=listing.lng %>&zoom=18&maptype=satellite" frameborder="0"></iframe> -->
             </div>
+            <input id="hori" type="hidden" value="<%= listing.lat %>">
+            <input id="vert" type="hidden" value="<%= listing.lng %> ">
+            <script>
+                let lat = document.getElementById('hori').value
+                let lng = document.getElementById('vert').value
+                let map = L.map('map', {
+                    center: [lat, lng],
+                    zoom: 10
+                })
+                let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                map.addLayer(layer);
+
+                let marker = L.marker([lat, lng]).addTo(map);
+            </script>
             <div class="card-body">
                 <form action="/listings/<%= listing._id %>?_method=PATCH" method="post">
                     <label for="review" class="card-title">
-                        <h5>⭐<%= listing.review.toFixed(2) %></h5>
+                        <h5>⭐<%= listing.review.toFixed(2) %>
+                        </h5>
                     </label>
-                    <div class="row g-3" >
+                    <div class="row g-3">
                         <div class="col-auto">
-                            <input type="number" class="form-control" name="review" id="review" min="0" max="5" placeholder="0.0">
+                            <input type="number" class="form-control" name="review" id="review" min="0" max="5"
+                                placeholder="0.0">
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-success">Add Review</button>
                         </div>
                     </div>
-                </form> 
+                </form>
             </div>
             <div class="d-flex mb-3">
                 <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
                     <a href="/listings" class="p-2 btn btn-primary">Show all</a>
-                    <a href="/listings/<%= listing._id %>/edit" class="p-2 btn btn-success"> edit </a>                   
+                    <a href="/listings/<%= listing._id %>/edit" class="p-2 btn btn-success"> edit </a>
                     <button class="p-2 btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-

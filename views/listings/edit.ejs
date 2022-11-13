@@ -1,4 +1,3 @@
-
 <div class="row">
     <h1 class="text-center">Edit Listing</h1>
     <div class="col-6 offset-3">
@@ -13,7 +12,8 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Listing Description</label>
-                <textarea class="form-control" type="description" id="description"name="description" rows="5"><%= listing.description  %></textarea>
+                <textarea class="form-control" type="description" id="description" name="description"
+                    rows="5"><%= listing.description  %></textarea>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
@@ -27,18 +27,50 @@
                         aria-describedby="price-label" id="price" name="price" value="<%= listing.price%>">
                 </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Coordinates</label>             
-                <div class="input-group mb-3" >
+            <div id="map" class="mb-3" style="height: 300px; width: 544px;">
+
+            </div>
+            <input id="hori" type="hidden" value="<%= listing.lat %>">
+            <input id="vert" type="hidden" value="<%= listing.lng %>">
+            <script>
+
+                let latitude = document.getElementById('hori').value
+                let longtitude = document.getElementById('vert').value
+
+                let map = new L.map('map', {
+                    center: [latitude, longtitude],
+                    zoom: 8
+                })
+
+                let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                map.addLayer(layer);
+
+                let marker = L.marker([latitude, longtitude]).addTo(map);
+                map.on('click', (event) => {
+                    console.log(event);
+                    if (marker !== null) {
+                        map.removeLayer(marker);
+                    }
+
+                    marker = L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
+                    document.getElementById('lat').value = event.latlng.lat;
+                    document.getElementById('lng').value = event.latlng.lng;
+
+                })
+            </script>
+            <div class=" mb-3">
+                <label class="form-label">Coordinates</label>
+                <div class="input-group mb-3">
                     <span class="input-group-text">Latitude</span>
-                    <input type="number" step="any" class="form-control" step="any"  name="lat" id="lat" value="<%= listing.lat %>">
+                    <input type="number" step="any" class="form-control" step="any" name="lat" id="lat"
+                        value="<%= listing.lat %>">
                     <span class="input-group-text">Longtitude</span>
-                    <input type="number" step="any" class="form-control"  name="lng" id="lng" value="<%= listing.lng %>"> 
-            </div>
-            <div class="mb-3">
-                <a class="btn btn-primary" href="/listings/<%= listing._id %>">Cancel</a>
-                <button class="btn btn-success">Update listing</button>
-            </div>
+                    <input type="number" step="any" class="form-control" name="lng" id="lng" value="<%= listing.lng %>">
+                </div>
+                <div class="mb-3">
+                    <a class="btn btn-primary" href="/listings/<%= listing._id %>">Cancel</a>
+                    <button class="btn btn-success">Update listing</button>
+                </div>
         </form>
     </div>
 </div>
