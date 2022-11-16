@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Listing = require('./model/listings');
 
 // for put, patch and delete methods
-var methodOverride = require('method-override'); 
+var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
 // layout
@@ -15,7 +15,7 @@ app.use(layout);
 
 // some useful add-ons 
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 
 // database connection
@@ -25,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017/ListingsApp')
     })
     .catch(err => {
         console.log("Error");
-        console.log(err);    
+        console.log(err);
     })
 
 
@@ -34,7 +34,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/views'));
 
-app.use('/listings/:id', (req, res, next)=> {
+app.use('/listings/:id', (req, res, next) => {
     console.log(req.method, req.body.review)
     next();
 })
@@ -45,9 +45,9 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/listings', async (req, res)=> {
+app.get('/listings', async (req, res) => {
     const listings = await Listing.find({});
-    res.render('./listings/listings', {listings});
+    res.render('./listings/listings', { listings });
 })
 
 app.get('/listings/new', (req, res) => {
@@ -62,41 +62,35 @@ app.post('/listings', async (req, res) => {
 
 
 app.put('/listings/:id', async (req, res) => {
-    const {id} = req.params;
-    await Listing.findByIdAndUpdate(id, req.body, {runValidators: true, new: true});
+    const { id } = req.params;
+    await Listing.findByIdAndUpdate(id, req.body, { runValidators: true, new: true });
     res.redirect(`/listings/${id}`);
 })
 
 app.patch('/listings/:id', async (req, res) => {
-    const {id} = req.params;
-    const newReview = req.body.review;
-    const importReview = await Listing.findById(id, 'review');
-    const oldReview = importReview.review;
-    // hard coded to get the average kaso kinocall sya 5 times kaya may 5 hehehehe😂
-    const average = ((newReview + oldReview) / 2) / 5;
-    console.log(average);
-    await Listing.findByIdAndUpdate(id, {review: average}, {new: true});
-    // await Listing.findByIdAndUpdate(id, {review: {$divide: [ $sum: [newReview, oldReview], 2]}}); //somthing faulty Ambut wla ko kasabot
+    const { id } = req.params;
+    console.log(req.body);
+    await Listing.findByIdAndUpdate(id, { $push: { review: req.body } }, { new: true });
     res.redirect(`/listings/${id}`);
 })
 
 
 
-app.get('/listings/:id', async (req, res)=> {
-    const {id} = req.params;
+app.get('/listings/:id', async (req, res) => {
+    const { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render('./listings/show', {listing});
+    res.render('./listings/show', { listing });
 })
 
-app.get('/listings/:id/edit', async (req, res)=> {
-    const {id} = req.params;
+app.get('/listings/:id/edit', async (req, res) => {
+    const { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render('./listings/edit', {listing});
+    res.render('./listings/edit', { listing });
 })
 
-app.delete('/listings/:id', async (req, res)=>{
-    const {id} = req.params;
-    await Listing.deleteOne({_id: id});
+app.delete('/listings/:id', async (req, res) => {
+    const { id } = req.params;
+    await Listing.deleteOne({ _id: id });
     res.redirect('/listings');
 })
 

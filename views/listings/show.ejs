@@ -35,29 +35,48 @@
 
                 let marker = L.marker([lat, lng]).addTo(map);
             </script>
-            <div class="card-body">
+            <div class="card">
                 <form action="/listings/<%= listing._id %>?_method=PATCH" method="post">
-                    <label for="review" class="card-title">
-                        <h5>⭐<%= listing.review.toFixed(2) %>
-                        </h5>
-                    </label>
-                    <div class="row g-3">
-                        <div class="col-auto">
-                            <input type="number" class="form-control" name="review" id="review" min="0" max="5"
+                    <div class="card-header">
+                        ⭐<%= (listing.review.map((item)=> item.rating).reduce((x, y) => x + y, 0) /
+                            listing.review.length).toFixed(2) %>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="w-25">
+                            <input type="number" class="form-control" name="rating" id="rating" min="0" max="5"
                                 placeholder="0.0">
                         </div>
-                        <div class="col-auto">
+                        <div class="p-2">
+                            <textarea name="comment" id="comment" cols="60" rows="10">
+
+                            </textarea>
+                        </div>
+                        <div class="p-2">
                             <button class="btn btn-success">Add Review</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="d-flex mb-3">
-                <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
-                    <a href="/listings" class="p-2 btn btn-primary">Show all</a>
-                    <a href="/listings/<%= listing._id %>/edit" class="p-2 btn btn-success"> edit </a>
-                    <button class="p-2 btn btn-danger">Delete</button>
-                </form>
+            <div class="card">
+                <% for( let item of listing.review) { %>
+                    <div class="card-body">
+                        ⭐<%= item.rating %>
+                            <br>
+                            <%= item.comment %>
+                    </div>
+                    <% } %>
+
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+                        <a href="/listings" class="btn btn-primary ">Show all</a>
+                        <a href="/listings/<%= listing._id %>/edit" class="btn btn-success"> edit </a>
+                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
